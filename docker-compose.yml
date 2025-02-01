@@ -1,0 +1,19 @@
+services:
+  developer-hub-coming-soon:
+    build: .
+    container_name: developer-hub-coming-soon
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.developer-hub-coming-soon.rule=Host(`developer-hub.com`)"
+      - "traefik.http.routers.developer-hub-coming-soon.entrypoints=websecure"
+      - "traefik.http.routers.developer-hub-coming-soon.tls.certresolver=myresolver"
+      - "traefik.http.services.developer-hub-coming-soon.loadbalancer.server.port=80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html
+    networks:
+      - traefik_default
+    restart: always
+
+networks:
+  traefik_default:
+    external: true
